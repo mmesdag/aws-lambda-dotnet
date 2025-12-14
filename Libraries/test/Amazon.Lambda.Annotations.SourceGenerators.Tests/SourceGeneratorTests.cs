@@ -56,7 +56,7 @@ namespace Amazon.Lambda.Annotations.SourceGenerators.Tests
             var actualTemplateContent = await File.ReadAllTextAsync(Path.Combine("TestServerlessApp", "serverless.template"));
             Assert.Equal(expectedTemplateContent, actualTemplateContent);
         }
-        
+
         [Fact]
         public async Task TestExecutableOutputWithNoAnnotations()
         {
@@ -94,7 +94,7 @@ namespace Amazon.Lambda.Annotations.SourceGenerators.Tests
             await new VerifyCS.Test
             {
                 TestState =
-                {                   
+                {
                     Sources =
                     {
                         (Path.Combine("TestServerlessApp", "Greeter.cs"), await File.ReadAllTextAsync(Path.Combine("TestServerlessApp", "Greeter.cs"))),
@@ -207,7 +207,7 @@ namespace Amazon.Lambda.Annotations.SourceGenerators.Tests
             var expectedTemplateContent = await ReadSnapshotContent(Path.Combine("Snapshots", "ServerlessTemplates", "complexCalculator.template"));
             var expectedAddGenerated = await ReadSnapshotContent(Path.Combine("Snapshots", "ComplexCalculator_Add_Generated.g.cs"));
             var expectedSubtractGenerated = await ReadSnapshotContent(Path.Combine("Snapshots", "ComplexCalculator_Subtract_Generated.g.cs"));
-            
+
             await new VerifyCS.Test
             {
                 TestState =
@@ -368,7 +368,7 @@ namespace Amazon.Lambda.Annotations.SourceGenerators.Tests
                 // Don't include RuntimeSupport's entry point.
                 if (file.EndsWith("Program.cs") && content.Contains("Task Main(string[] args)"))
                     continue;
-                
+
                 test.TestState.Sources.Add((file, await File.ReadAllTextAsync(file)));
             }
 
@@ -381,7 +381,7 @@ namespace Amazon.Lambda.Annotations.SourceGenerators.Tests
             var expectedTemplateContent = await ReadSnapshotContent(Path.Combine("Snapshots", "ServerlessTemplates", "subnamespace_executableimage.template"));
             var expectedSubNamespaceGenerated = await ReadSnapshotContent(Path.Combine("Snapshots", "Functions_AsyncStartupToUpper_Generated.g.cs"));
             var expectedProgramGenerated = await ReadSnapshotContent(Path.Combine("Snapshots", "Program.g.cs"));
-            
+
             var test = new VerifyCS.Test
             {
                 TestState =
@@ -427,7 +427,7 @@ namespace Amazon.Lambda.Annotations.SourceGenerators.Tests
                 // Don't include RuntimeSupport's entry point.
                 if (file.EndsWith("Program.cs") && content.Contains("Task Main(string[] args)"))
                     continue;
-                
+
                 test.TestState.Sources.Add((file, await File.ReadAllTextAsync(file)));
             }
 
@@ -483,7 +483,7 @@ namespace Amazon.Lambda.Annotations.SourceGenerators.Tests
                 // Don't include RuntimeSupport's entry point.
                 if (file.EndsWith("Program.cs") && content.Contains("Task Main(string[] args)"))
                     continue;
-                
+
                 test.TestState.Sources.Add((file, await File.ReadAllTextAsync(file)));
             }
 
@@ -539,7 +539,7 @@ namespace Amazon.Lambda.Annotations.SourceGenerators.Tests
                 // Don't include RuntimeSupport's entry point.
                 if (file.EndsWith("Program.cs") && content.Contains("Task Main(string[] args)"))
                     continue;
-                
+
                 test.TestState.Sources.Add((file, await File.ReadAllTextAsync(file)));
             }
 
@@ -590,7 +590,7 @@ namespace Amazon.Lambda.Annotations.SourceGenerators.Tests
             var expectedSayHello = await ReadSnapshotContent(Path.Combine("Snapshots", "GreeterExecutable_SayHello_Generated.g.cs"));
             var expectedSayHelloAsync = await ReadSnapshotContent(Path.Combine("Snapshots", "GreeterExecutable_SayHelloAsync_Generated.g.cs"));
             var expectedProgramGenerated = await ReadSnapshotContent(Path.Combine("Snapshots", "ProgramMultiHandler.g.cs"));
-            
+
             var test = new VerifyCS.Test
             {
                 TestState =
@@ -642,7 +642,7 @@ namespace Amazon.Lambda.Annotations.SourceGenerators.Tests
                 // Don't include RuntimeSupport's entry point.
                 if (file.EndsWith("Program.cs") && content.Contains("Task Main(string[] args)"))
                     continue;
-                
+
                 test.TestState.Sources.Add((file, await File.ReadAllTextAsync(file)));
             }
 
@@ -1274,7 +1274,7 @@ namespace Amazon.Lambda.Annotations.SourceGenerators.Tests
                         DiagnosticResult.CompilerError("AWSLambda0116")
                             .WithSpan($"TestServerlessApp{Path.DirectorySeparatorChar}SQSEventExamples{Path.DirectorySeparatorChar}InvalidSQSEvents.cs", 80, 9, 85, 10)
                             .WithArguments("BatchSize = 100. It must be less than or equal to 10 when the event source mapping is for a FIFO queue"),
-            
+
                         DiagnosticResult.CompilerError("AWSLambda0116")
                         .WithSpan($"TestServerlessApp{Path.DirectorySeparatorChar}SQSEventExamples{Path.DirectorySeparatorChar}InvalidSQSEvents.cs", 80, 9, 85, 10)
                         .WithArguments("MaximumBatchingWindowInSeconds must not be set when the event source mapping is for a FIFO queue")
@@ -1389,7 +1389,7 @@ namespace Amazon.Lambda.Annotations.SourceGenerators.Tests
                             "HostBuilderFunctions_Add_Generated.g.cs",
                             SourceText.From(expectedAddGenerated, Encoding.UTF8, SourceHashAlgorithm.Sha256)
                         ),
-                        
+
                     },
                     ExpectedDiagnostics =
                     {
@@ -1398,6 +1398,48 @@ namespace Amazon.Lambda.Annotations.SourceGenerators.Tests
                     }
                 }
             }.RunAsync();
+        }
+
+        [Fact]
+        public async Task VerifyNoCloudformationTemplateCreated()
+        {
+            var expectedSayHelloGenerated = await ReadSnapshotContent(Path.Combine("Snapshots", "Greeter_SayHello_Generated.g.cs"));
+            var expectedSayHelloAsyncGenerated = await ReadSnapshotContent(Path.Combine("Snapshots", "Greeter_SayHelloAsync_Generated.g.cs"));
+
+            await new VerifyCS.Test
+            {
+                TestState =
+                {
+                    Sources =
+                    {
+                        (Path.Combine("TestServerlessApp", "Greeter.cs"), await File.ReadAllTextAsync(Path.Combine("TestServerlessApp", "Greeter.cs"))),
+                        (Path.Combine("Amazon.Lambda.Annotations", "LambdaFunctionAttribute.cs"), await File.ReadAllTextAsync(Path.Combine("Amazon.Lambda.Annotations", "LambdaFunctionAttribute.cs"))),
+                        (Path.Combine("Amazon.Lambda.Annotations", "LambdaStartupAttribute.cs"), await File.ReadAllTextAsync(Path.Combine("Amazon.Lambda.Annotations", "LambdaStartupAttribute.cs"))),
+                        (Path.Combine("TestServerlessApp", "AssemblyAttributes.cs"), await File.ReadAllTextAsync(Path.Combine("TestServerlessApp", "AssemblyAttributes.cs"))),
+                        (Path.Combine("TestServerlessApp", "NoCloudFormationTemplateAssemblyAttributes.cs"), await File.ReadAllTextAsync(Path.Combine("TestServerlessApp", "NoCloudFormationTemplateAssemblyAttributes.cs"))),
+                    },
+                    GeneratedSources =
+                    {
+                        (
+                            typeof(SourceGenerator.Generator),
+                            "Greeter_SayHello_Generated.g.cs",
+                            SourceText.From(expectedSayHelloGenerated, Encoding.UTF8, SourceHashAlgorithm.Sha256)
+                        ),
+                        (
+                            typeof(SourceGenerator.Generator),
+                            "Greeter_SayHelloAsync_Generated.g.cs",
+                            SourceText.From(expectedSayHelloAsyncGenerated, Encoding.UTF8, SourceHashAlgorithm.Sha256)
+                        )
+                    },
+                    ExpectedDiagnostics =
+                    {
+                        new DiagnosticResult("AWSLambda0103", DiagnosticSeverity.Info).WithArguments("Greeter_SayHello_Generated.g.cs", expectedSayHelloGenerated),
+                        new DiagnosticResult("AWSLambda0103", DiagnosticSeverity.Info).WithArguments("Greeter_SayHelloAsync_Generated.g.cs", expectedSayHelloAsyncGenerated),
+                    }
+                }
+            }.RunAsync();
+
+            Assert.False(File.Exists(Path.Combine("TestServerlessApp", "serverless.template")));
         }
 
         public void Dispose()
