@@ -4,7 +4,7 @@ using System;
 namespace Amazon.Lambda.Annotations
 {
     /// <summary>
-    /// Used to add global configuration to the Lambda Source Generators. 
+    /// Used to add global configuration to the Lambda Source Generators.
     /// </summary>
     [AttributeUsage( AttributeTargets.Assembly)]
     public class LambdaGlobalPropertiesAttribute : Attribute
@@ -20,5 +20,11 @@ namespace Amazon.Lambda.Annotations
         /// The runtime to set in the generated CloudFormation template. Either 'dotnet6', 'provided.al2', 'provided.al2023', 'dotnet8', or 'dotnet10'.
         /// </summary>
         public string Runtime { get; set; }
+
+        /// <summary>
+        /// Indicates whether the Lambda Annotations Framework will generate a CloudFormation template.
+        /// This is enabled by default but can be disabled if CloudFormation is not being used or to allow full manual control of a CloudFormation deployment.
+        /// </summary>
+        public bool GenerateCloudFormationTemplate { get; set; } = true;
     }
 }
