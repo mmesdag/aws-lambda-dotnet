@@ -1,7 +1,7 @@
 # Amazon.Lambda.Annotations
 
 Lambda Annotations is a programming model for writing .NET Lambda functions. At a high level the programming model allows
-idiomatic .NET coding patterns. [C# Source Generators](https://docs.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview) are used to bridge the 
+idiomatic .NET coding patterns. [C# Source Generators](https://docs.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview) are used to bridge the
 gap between the Lambda programming model to the Lambda Annotations programming model without adding any performance penalty.
 
 Topics:
@@ -31,8 +31,8 @@ Topics:
 
 The default experience for writing .NET Lambda functions is to write a .NET method that takes in an event object. From there boiler plate code is written to
 parse the data out of the event object and synchronize the CloudFormation template to define the Lambda function and the .NET method to call
-for each event. Here is a simplistic example of a .NET Lambda function that acts like a calculator plus method using the default Lambda programming model. It responds to 
-an API Gateway REST API, pulls the operands from the resource paths, does the 
+for each event. Here is a simplistic example of a .NET Lambda function that acts like a calculator plus method using the default Lambda programming model. It responds to
+an API Gateway REST API, pulls the operands from the resource paths, does the
 addition and returns back an API Gateway response.
 
 ```csharp
@@ -64,7 +64,7 @@ public class Functions
             Body = (x + y).ToString(),
             Headers = new Dictionary<string, string> { { "Content-Type", "text/plain" } }
         };
-    } 
+    }
 }
 ```
 
@@ -83,20 +83,20 @@ public class Functions
 ```
 
 Lambda Annotations uses C# source generators to generate that boiler plate code to bridge the gap between the default Lambda programming model to Lambda Annotations programming model at compile time.
-In addition the source generator also synchronizes the CloudFormation template to declare all of the .NET methods with the `LambdaFunction` attribute as 
+In addition the source generator also synchronizes the CloudFormation template to declare all of the .NET methods with the `LambdaFunction` attribute as
 Lambda functions in the CloudFormation template.
 
 ## Getting started
 
-To get started with Lambda annotations a Lambda blueprint is available. For Visual Studio users the blueprint can be 
-accessed using the [AWS Toolkit for Visual Studio](https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.AWSToolkitforVisualStudio2022). 
-For non-Visual Studio users the [Amazon.Lambda.Templates](https://www.nuget.org/packages/Amazon.Lambda.Templates) 
+To get started with Lambda annotations a Lambda blueprint is available. For Visual Studio users the blueprint can be
+accessed using the [AWS Toolkit for Visual Studio](https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.AWSToolkitforVisualStudio2022).
+For non-Visual Studio users the [Amazon.Lambda.Templates](https://www.nuget.org/packages/Amazon.Lambda.Templates)
 NuGet package is available for creating .NET Lambda projects from the .NET CLI.
 
 
 ### Visual Studio 2022
 
-To get started with Visual Studio install [AWS Toolkit for Visual Studio](https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.AWSToolkitforVisualStudio2022) 
+To get started with Visual Studio install [AWS Toolkit for Visual Studio](https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.AWSToolkitforVisualStudio2022)
 extension. Once installed, a pre-configured Lambda Annotations project can be created using the following steps:
 
 * Select **Create a new project**
@@ -114,7 +114,7 @@ Lambda Annotations library run the following steps from a terminal.
 * Run `dotnet new install Amazon.Lambda.Templates` to install the AWS Lambda templates into the .NET CLI
 * Run `dotnet new serverless.Annotations --output FirstAnnotationsProject` to create a project using Lambda Annotations
 
-This will create a project in a sub directory of the current director called `FirstAnnotationsProject`. The directory 
+This will create a project in a sub directory of the current director called `FirstAnnotationsProject`. The directory
 will contain both a Lambda project using Annotations as well as a unit test project.
 
 ### The sample project
@@ -123,34 +123,34 @@ The sample project contains the following files:
 
 * **Functions.cs** - Defines a collection of REST API Lambda functions using Lambda Annotation.
 * **Startup.cs** - Where services can be registered for dependency injection into the Lambda functions.
-* **serverless.template** - CloudFormation template used to deploy the Lambda functions. The Lambda Annotations library 
+* **serverless.template** - CloudFormation template used to deploy the Lambda functions. The Lambda Annotations library
 will automatically sync the functions defined in the project in the CloudFormation template.
 * **aws-lambda-tools-defaults.json** - Config file for default settings used for deployment.
 
 To reset to an empty project delete the code in the `Functions` class and recompile the project. The Lambda
 Annotations library will remove all of the Lambda function declarations from the CloudFormation template.
-If the project will not include any Lambda functions that use API Gateway's HTTP API event sources then the `ApiURL` 
+If the project will not include any Lambda functions that use API Gateway's HTTP API event sources then the `ApiURL`
 output parameter should be manually removed from the CloudFormation template.
 
 ### Deployment
 
-The Lambda Annotations library requires no special tooling for deployment. Any tool that supports CloudFormation-based 
-.NET Lambda function deployment is compatible with Lambda Annotations. This includes 
-[AWS Toolkit for Visual Studio](https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.AWSToolkitforVisualStudio2022), 
+The Lambda Annotations library requires no special tooling for deployment. Any tool that supports CloudFormation-based
+.NET Lambda function deployment is compatible with Lambda Annotations. This includes
+[AWS Toolkit for Visual Studio](https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.AWSToolkitforVisualStudio2022),
 [Amazon.Lambda.Tools](https://github.com/aws/aws-extensions-for-dotnet-cli/#aws-lambda-amazonlambdatools) for the .NET CLI and [AWS SAM CLI](https://aws.amazon.com/serverless/sam/).
 
-For the AWS Toolkit for Visual Studio deployment can be initiated by right clicking on the Lambda project in the 
+For the AWS Toolkit for Visual Studio deployment can be initiated by right clicking on the Lambda project in the
 Solution Explorer and selecting **Publish to AWS Lambda...**. This will launch a wizard to configure the name
 of the CloudFormation stack and a S3 bucket used for storage of the compiled Lambda function deployment bundles.
 
-Amazon.Lambda.Tools is a .NET CLI global tool that can be install using the command 
+Amazon.Lambda.Tools is a .NET CLI global tool that can be install using the command
 `dotnet tool install --global Amazon.Lambda.Tools`. Once installed deployment can be initiated by running the command
 `dotnet lambda deploy-serverless` in the directory of the Lambda project.
 
 
 ### Adding Lambda Annotations to an existing project
 
-Lambda Annotations can be added to existing projects. Lambda Annotations does require that deployment of existing 
+Lambda Annotations can be added to existing projects. Lambda Annotations does require that deployment of existing
 projects is done using a CloudFormation template. In the future Lambda Annotations may support
 other deployment technologies.
 
@@ -162,13 +162,13 @@ original declaration should be manually removed.
 
 ## Dependency Injection integration
 
-Lambda Annotations supports dependency injection. A class can be marked with a `LambdaStartup` attribute. The class will 
+Lambda Annotations supports dependency injection. A class can be marked with a `LambdaStartup` attribute. The class will
 have a `ConfigureHostBuilder` method for configuring the host builder. `ConfigureHostBuilder` should return an implementation of `IHostApplicationBuilder`.
 
 Services can be injected by either constructor injection or using the `FromServices` attribute on a method parameter of
 the function decorated with the `LambdaFunction` attribute.
 
-Services injected via the constructor have a lifecycle for the length of the Lambda compute container. For each Lambda 
+Services injected via the constructor have a lifecycle for the length of the Lambda compute container. For each Lambda
 invocation a scope is created and the services injected using the `FromServices` attribute are created within the scope.
 
 Example startup class using the recommended ConfigureHostBuilder:
@@ -179,14 +179,14 @@ public class Startup
     public HostApplicationBuilder ConfigureHostBuilder()
     {
         var hostBuilder = new HostApplicationBuilder();
-        
+
         // Register services
         hostBuilder.Services.AddAWSService<Amazon.S3.IAmazonS3>();
         hostBuilder.Services.AddScoped<ITracker, DefaultTracker>();
-        
+
         // Add other configuration if needed
         hostBuilder.AddServiceDefaults();
-        
+
         return hostBuilder;
     }
 }
@@ -236,15 +236,15 @@ public class Functions
 
 ## Synchronizing CloudFormation template
 
-When the .NET project is compiled the Lambda Annotation source generator will synchronize all of the C# methods with the `LambdaFunction` attribute in the 
+When the .NET project is compiled the Lambda Annotation source generator will synchronize all of the C# methods with the `LambdaFunction` attribute in the
 project's CloudFormation template. Support is available for both JSON and YAML based CloudFormation templates.
-The source generator identifies the CloudFormation template for the project by looking at the `template` property in the `aws-lambda-tools-defaults.json` 
+The source generator identifies the CloudFormation template for the project by looking at the `template` property in the `aws-lambda-tools-defaults.json`
 file. If the `template` property is absent, the source generator will default to `serverless.template` and create the file if it does not exist.
 
 The source generator synchronizes Lambda resources in the CloudFormation template. The template can still be edited to add additional AWS resources or to further customize the Lambda functions, such as adding other event sources that are not currently supported by Lambda Annotations attributes.
 
-When a .NET Method is synchronized to the CloudFormation template the source generator adds the `Tool` metadata property shown below. This metadata 
-links the CloudFormation resource to the source generator. If the `LambdaFunction` attribute is removed the C# method then the source generator 
+When a .NET Method is synchronized to the CloudFormation template the source generator adds the `Tool` metadata property shown below. This metadata
+links the CloudFormation resource to the source generator. If the `LambdaFunction` attribute is removed the C# method then the source generator
 will remove the CloudFormation resource. To unlink the CloudFormation resource from the source generator
 remove the `Tool` metadata property.
 
@@ -268,7 +268,7 @@ remove the `Tool` metadata property.
 }
 ```
 
-The `LambdaFunction` attribute contains properties that map to properties of the CloudFormation resource. For example in this snippet the Lambda function's `MemorySize` and `Timeout` 
+The `LambdaFunction` attribute contains properties that map to properties of the CloudFormation resource. For example in this snippet the Lambda function's `MemorySize` and `Timeout`
 properties are set in the C# code. The source generator will synchronize these properties into the CloudFormation template.
 ```csharp
 [LambdaFunction(MemorySize = 512, Timeout = 55)]
@@ -280,7 +280,7 @@ public int Add(int x, int y, ILambdaContext context)
 }
 ```
 
-Some CloudFormation properties are not set to a specific value but instead reference another resource or parameter defined in the CloudFormation template. To indicate the value for a 
+Some CloudFormation properties are not set to a specific value but instead reference another resource or parameter defined in the CloudFormation template. To indicate the value for a
 property of the .NET attribute is meant to reference another CloudFormation resource prefix the value with `@`. Here is an example of the `Role` for the Lambda function to reference
 an IAM role defined in the CloudFormation template as `LambdaRoleParameter`
 
@@ -319,7 +319,7 @@ public class Functions
     },
 ```
 
-By default, Lambda Annotations will update the CloudFormation template's [description](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-description-structure.html) 
+By default, Lambda Annotations will update the CloudFormation template's [description](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-description-structure.html)
 field to include the version of Lambda Annotations that was used to modify the template.
 ```
 {
@@ -329,7 +329,7 @@ field to include the version of Lambda Annotations that was used to modify the t
    ...
 ```
 
-This description allow AWS to record the version and the usage of the Lambda Annotations framework in order to improve its quality. We record details at the CloudFormation stack level, and do not identify the application, library, or tool that was deployed. Note that we do not record any personal information, such as usernames, email addresses or sensitive project-level information. 
+This description allow AWS to record the version and the usage of the Lambda Annotations framework in order to improve its quality. We record details at the CloudFormation stack level, and do not identify the application, library, or tool that was deployed. Note that we do not record any personal information, such as usernames, email addresses or sensitive project-level information.
 
 If you do not want AWS to track the usage of the library, please set the following in your project (csproj) file:
 ```
@@ -342,6 +342,8 @@ If you do not want AWS to track the usage of the library, please set the followi
 
 A `LambdaGlobalProperties` attribute is available to set global settings that the annotations framework uses when generating code at compile time. This simplifies the programming model when using custom runtimes or native ahead of time (AOT) compilation. It removes the need to manually bootstrap the Lambda runtime.
 
+### GenerateMain
+
 To auto-generate the `static Main` method, first ensure the `OutputType` in your `csproj` file is set to `exe`.
 ```xml
 <PropertyGroup>
@@ -350,17 +352,27 @@ To auto-generate the `static Main` method, first ensure the `OutputType` in your
 </PropertyGroup>
 ```
 
-Once the output type is set to executable, add the `LambdaGlobalProperties` assembly attribute and set the `GenerateMain` property to true. If `Runtime` is not specified in the global attribute, Lambda Annotations will attempt to determine it from your project file. You can also configure the `Runtime` in the generated CloudFormation template. 
+Once the output type is set to executable, add the `LambdaGlobalProperties` assembly attribute and set the `GenerateMain` property to true. If `Runtime` is not specified in the global attribute, Lambda Annotations will attempt to determine it from your project file. You can also configure the `Runtime` in the generated CloudFormation template.
 
 To allow for multiple Lambda functions in the same executable an Environment Variable is used to determine which handler is executed. When using the `GenerateMain` attribute, ensure you also set the `ANNOTATIONS_HANDLER` environment variable on the deployed Lambda function.
 
 The auto-generated CloudFormation template will include this as a default.
 
+### GenerateCloudFormationTemplate
+
+To prevent the creation of a CloudFormation template, add the `LambdaGlobalProperties` assembly attribute and set the `GenerateCloudFormationTemplate` to `false`
+
+```csharp
+using Amazon.Lambda.Annotations;
+
+[assembly: LambdaGlobalProperties(GenerateCloudFormationTemplate = false)]
+```
+
 ## Amazon API Gateway example
 
-This example creates a REST API through Amazon API Gateway that exposes the common arithmetic operations. 
+This example creates a REST API through Amazon API Gateway that exposes the common arithmetic operations.
 
-To avoid putting business logic inside the REST API a separate calculator service is created to encapsulate the logic of the arithmetic operations. Here is both the 
+To avoid putting business logic inside the REST API a separate calculator service is created to encapsulate the logic of the arithmetic operations. Here is both the
 calculator service's interface and default implementation.
 
 ```csharp
@@ -387,7 +399,7 @@ public class DefaultCalculatorService : ICalculatorService
 }
 ```
 
-The startup class contains the `LambdaStartup` attribute identifying it as the class to configure the services registered in the dependency injection framework. 
+The startup class contains the `LambdaStartup` attribute identifying it as the class to configure the services registered in the dependency injection framework.
 Here the `ICalculatorService` is registered as a singleton service in the collection of services.
 
 ```csharp
@@ -397,18 +409,18 @@ public class Startup
     public HostApplicationBuilder ConfigureHostBuilder()
     {
         var hostBuilder = new HostApplicationBuilder();
-        
+
         hostBuilder.Services.AddSingleton<ICalculatorService, DefaultCalculatorService>();
-        
+
         return hostBuilder;
     }
 }
 
 ```
 
-Since the `ICalculatorService` is registered as a singleton the service is injected into the Lambda function via the constructor. 
+Since the `ICalculatorService` is registered as a singleton the service is injected into the Lambda function via the constructor.
 If the registered service is registered as scoped or transient and a new instance is needed for each Lambda invocation then the
-`FromServices` attribute should be used on a method parameter of the Lambda function. 
+`FromServices` attribute should be used on a method parameter of the Lambda function.
 
 ```csharp
 public class Functions
@@ -423,12 +435,12 @@ public class Functions
 ```
 
 For each arithmetic operation a separate C# method is added containing the `LambdaFunction` attribute. The `LambdaFunction` attribute
-ensures the dependency injection framework is hooked up to the Lambda function and the Lambda function will be declared in the 
-CloudFormation template. 
+ensures the dependency injection framework is hooked up to the Lambda function and the Lambda function will be declared in the
+CloudFormation template.
 
-Since these Lambda functions are responding to API Gateway events the `HttpApi` attribute is added 
-to register the event source in CloudFormation along with the HTTP verb and resource path. The `HttpApi` attribute also enables 
-mapping of the HTTP request components to method parameters. In this case the operands used for the arithmetic operations are 
+Since these Lambda functions are responding to API Gateway events the `HttpApi` attribute is added
+to register the event source in CloudFormation along with the HTTP verb and resource path. The `HttpApi` attribute also enables
+mapping of the HTTP request components to method parameters. In this case the operands used for the arithmetic operations are
 mapped from the resource path. Checkout the list of Lambda attributes in the reference section to see how to map other components
 of the HTTP request to method parameters.
 
@@ -466,7 +478,7 @@ public int Divide(int x, int y, ILambdaContext context)
 }
 ```
 
-For each `LambdaFunction` declared the source generator will update the CloudFormation template with the corresponding resource. 
+For each `LambdaFunction` declared the source generator will update the CloudFormation template with the corresponding resource.
 The Lambda CloudFormation resource has the `Handler` property set to the generated method by Lambda Annotations. This generated
 method is where Lambda Annotations bridges the gap between the Lambda Annotation programming model and the Lambda programming model.
 The `HttpApi` attribute also adds the API Gateway event source.
@@ -501,9 +513,9 @@ The `HttpApi` attribute also adds the API Gateway event source.
     },
 ```
 
-Here is an example of the generated code from the source generator for the `Add` Lambda function. The generated code wraps around the 
+Here is an example of the generated code from the source generator for the `Add` Lambda function. The generated code wraps around the
 C# method that has the `LambdaFunction` attribute. It takes care of
-configuring the dependency injection, gets the parameters from the API Gateway event and invokes the wrapped `LambdaFunction`. This code snippet is here for 
+configuring the dependency injection, gets the parameters from the API Gateway event and invokes the wrapped `LambdaFunction`. This code snippet is here for
 informational purposes, as a user of the Lambda Annotations framework this code should not be needed to be seen.
 
 ```csharp
@@ -519,7 +531,7 @@ public class Functions_Add_Generated
 
         // By default, Lambda function class is added to the service container using the singleton lifetime
         // To use a different lifetime, specify the lifetime in Startup.ConfigureHostBuilder() method.
-        hostBuilder.Services.AddSingleton<Functions>();  
+        hostBuilder.Services.AddSingleton<Functions>();
 
         serviceProvider = hostBuilder.Services.BuildServiceProvider();
 
@@ -596,12 +608,12 @@ public class Functions_Add_Generated
 
 ## Amazon S3 example
 
-Lambda functions that are not using API Gateway can take advantage of Lambda Annotation's dependency injection integration and CloudFormation 
+Lambda functions that are not using API Gateway can take advantage of Lambda Annotation's dependency injection integration and CloudFormation
 synchronization features. This example is a Lambda function that responds to S3 events and resizes images that are uploaded to S3.
 
 The `Startup` class is used to register the services needed for the function. Two services are registered in this example. First is the
 AWS SDK's S3 client. The second is the `IImageServices` to handle image manipulation. In this example the `IImageService`
-is registered as a transient service so we can have a new instance created for every invocation. This is commonly needed if a 
+is registered as a transient service so we can have a new instance created for every invocation. This is commonly needed if a
 service has state that should not be preserved per invocation.
 
 ```csharp
@@ -611,16 +623,16 @@ public class Startup
     public HostApplicationBuilder ConfigureHostBuilder()
     {
         var hostBuilder = new HostApplicationBuilder();
-        
+
         // Using the AWSSDK.Extensions.NETCore.Setup package add the AWS SDK's S3 client
         hostBuilder.Services.AddAWSService<Amazon.S3.IAmazonS3>();
 
-        // Add service for handling image manipulation. 
+        // Add service for handling image manipulation.
         // IImageServices is added as transient service so a new instance
         // is created for each Lambda invocation. This can be important if services
         // have state that should not be persisted per invocation.
         hostBuilder.Services.AddTransient<IImageServices, DefaultImageServices>();
-        
+
         return hostBuilder;
     }
 }
@@ -633,7 +645,7 @@ of `IImageServices` is created.
 
 On the `Resize` method the `LambdaFunction` attribute sets the `MemorySize` and `Timeout` properties for the Lambda function. The source generator will sync these
 values to the corresponding properties in the CloudFormation template. The `Role` property is also set but in this case the value is prefixed with a `@`.
-The `@` tells the source generator to treat the value for a role as a reference to another element in the CloudFormation template. In this case the 
+The `@` tells the source generator to treat the value for a role as a reference to another element in the CloudFormation template. In this case the
 CloudFormation template defines an IAM role called `LambdaResizeImageRole` and the Lambda function should use that IAM role.
 
 ```csharp
@@ -668,9 +680,9 @@ public class Functions
 }
 ```
 
-The source generator will create the Lambda function resource in the CloudFormation template. The source generator will sync the properties that were 
-defined in the `LambdaFunction` attribute. The Lambda function resources synchronized in the template can also be modified directly in the template as well. 
-In this example the function is modified to define the event source in this case to S3. 
+The source generator will create the Lambda function resource in the CloudFormation template. The source generator will sync the properties that were
+defined in the `LambdaFunction` attribute. The Lambda function resources synchronized in the template can also be modified directly in the template as well.
+In this example the function is modified to define the event source in this case to S3.
 
 ```json
     "ImageResizerFunctionFunctionsResizeGenerated": {
@@ -719,9 +731,9 @@ In this example the function is modified to define the event source in this case
 ```
 
 This is the code the source generator will produce for this function. The constructor is handling setting up the dependency injection. During the generated `Resize`
-method a dependency injection scope is created and then the `IImageServices` is retrieved from the dependency injection and passed into the function written 
+method a dependency injection scope is created and then the `IImageServices` is retrieved from the dependency injection and passed into the function written
 by the developer. By creating the scope in the generated `Resize` method all services registered as scoped or transient will trigger a new instance to be created
-when retrieved from the dependency injection framework. This code snippet is here for 
+when retrieved from the dependency injection framework. This code snippet is here for
 informational purposes, as a user of the Lambda Annotations framework this code should not be needed to be seen.
 
 ```csharp
@@ -764,7 +776,7 @@ The `SQSEvent` attribute contains the following properties:
 * **Enabled** (Optional) - If set to false, the event source mapping will be disabled and message polling will be paused. Default value is true.
 * **BatchSize** (Optional) - The maximum number of messages that will be sent for processing in a single batch.  This value must be between 1 to 10000. For FIFO queues the maximum allowed value is 10. Default value is 10.
 * **MaximumBatchingWindowInSeconds** (Optional) - The maximum amount of time, in seconds, to gather records before invoking the function. This value must be between 0 to 300. Default value is 0. When BatchSize is set to a value greater than 10 MaximumBatchingWindowInSeconds must be set to at least 1. This property must not be set if the event source mapping is being created for a FIFO queue.
-* **Filters** (Optional) - A collection of semicolon (;) separated strings where each string denotes a pattern.  Only those SQS messages that conform to at least 1 pattern will be forwarded to the Lambda function for processing. 
+* **Filters** (Optional) - A collection of semicolon (;) separated strings where each string denotes a pattern.  Only those SQS messages that conform to at least 1 pattern will be forwarded to the Lambda function for processing.
 * **MaximumConcurrency** (Optional) - The maximum number of concurrent Lambda invocations that the SQS queue can trigger. This value must be between 2 to 1000. The default value is 1000.
 
 The `SQSEvent` attribute must be applied to Lambda method along with the `LambdaFunction` attribute.
@@ -772,7 +784,7 @@ The `SQSEvent` attribute must be applied to Lambda method along with the `Lambda
 The Lambda method must conform to the following rules when it is tagged with the `SQSEvent` attribute:
 
  1. It must have at least 1 argument and can have at most 2 arguments.
-	 - The first argument is required and must be of type `SQSEvent` defined in the [Amazon.Lambda.SQSEvents](https://github.com/aws/aws-lambda-dotnet/blob/master/Libraries/src/Amazon.Lambda.SQSEvents/SQSEvent.cs) package. 
+	 - The first argument is required and must be of type `SQSEvent` defined in the [Amazon.Lambda.SQSEvents](https://github.com/aws/aws-lambda-dotnet/blob/master/Libraries/src/Amazon.Lambda.SQSEvents/SQSEvent.cs) package.
 	 - The second argument is optional and must be of type `ILambdaContext` defined in the [Amazon.Lambda.Core](https://github.com/aws/aws-lambda-dotnet/blob/master/Libraries/src/Amazon.Lambda.Core/ILambdaContext.cs) package.
  2. The method return type must be one of `void`, `Task`, `SQSBatchResponse` or `Task<SQSBatchResponse>`. The `SQSBatchResponse` type is defined in the [Amazon.Lambda.SQSEvents](https://github.com/aws/aws-lambda-dotnet/blob/master/Libraries/src/Amazon.Lambda.SQSEvents/SQSBatchResponse.cs) package. If the return type is `SQSBatchResponse` or `Task<SQSBatchResponse>`, then the [FunctionResponseTypes](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-function-sqs.html#sam-function-sqs-functionresponsetypes) in the event source mapping is set to report `ReportBatchItemFailures`
 
@@ -849,9 +861,9 @@ The following SQS event source mapping will be generated for the `SQSMessageHand
 
 ## Getting build information
 
-The source generator integrates with MSBuild's compiler error and warning reporting when there are problems generating the boiler plate code. 
+The source generator integrates with MSBuild's compiler error and warning reporting when there are problems generating the boiler plate code.
 
-To see the code that is generated by the source generator turn the verbosity to detailed when executing a build. From the command this 
+To see the code that is generated by the source generator turn the verbosity to detailed when executing a build. From the command this
 is done by using the `--verbosity` switch.
 ```
 dotnet build --verbosity detailed
@@ -870,7 +882,7 @@ List of .NET attributes currently supported.
 * LambdaStartup
     * Placed on a class. Indicates this type should be used as the startup class and is used to configure the dependency injection and middleware. There can only be one class in a Lambda project with this attribute.
 
-### Event Attributes    
+### Event Attributes
 
 Event attributes configuring the source generator for the type of event to expect and setup the event source in the CloudFormation template. If an event attribute is not set the
 parameter to the `LambdaFunction` must be the event object and the event source must be configured outside of the code.
@@ -880,7 +892,7 @@ parameter to the `LambdaFunction` must be the event object and the event source 
 * HttpApi
     * Configures the Lambda function to be called from an API Gateway HTTP API. The HTTP method, HTTP API payload version and resource path are required to be set on the attribute.
 * SQSEvent
-    * Sets up event source mapping between the Lambda function and SQS queues. The SQS queue ARN is required to be set on the attribute. If users want to pass a reference to an existing SQS queue resource defined in their CloudFormation template, they can pass the SQS queue resource name prefixed with the '@' symbol. 
+    * Sets up event source mapping between the Lambda function and SQS queues. The SQS queue ARN is required to be set on the attribute. If users want to pass a reference to an existing SQS queue resource defined in their CloudFormation template, they can pass the SQS queue resource name prefixed with the '@' symbol.
 
 ### Parameter Attributes
 
@@ -897,7 +909,7 @@ parameter to the `LambdaFunction` must be the event object and the event source 
 
 ### Customizing responses for API Gateway Lambda functions
 
-The attributes `RestApi` or `HttpApi` configure a `LambdaFunction` method to use API Gateway as the event source for the function. By default these methods return an 
+The attributes `RestApi` or `HttpApi` configure a `LambdaFunction` method to use API Gateway as the event source for the function. By default these methods return an
 HTTP status code of 200. To customize the HTTP response, including adding HTTP headers, the method signature must return an `Amazon.Lambda.Annotations.APIGateway.IHttpResult`
 or `Task<Amazon.Lambda.Annotations.APIGateway.IHttpResult>`.
 The `Amazon.Lambda.Annotations.APIGateway.HttpResults` class contains static methods for creating an instance of `IHttpResult` with the appropriate HTTP status code and headers.
@@ -940,4 +952,4 @@ The content type is determined using the following rules.
 
 ## Project References
 
-If API Gateway event attributes, such as `RestAPI` or `HttpAPI`, are being used then a package reference to `Amazon.Lambda.APIGatewayEvents` must be added to the project, otherwise the project will not compile. We do not include it by default in order to keep the `Amazon.Lambda.Annotations` library lightweight. 
+If API Gateway event attributes, such as `RestAPI` or `HttpAPI`, are being used then a package reference to `Amazon.Lambda.APIGatewayEvents` must be added to the project, otherwise the project will not compile. We do not include it by default in order to keep the `Amazon.Lambda.Annotations` library lightweight.
