@@ -111,6 +111,8 @@ namespace Amazon.Lambda.Annotations.SourceGenerator
                     }
                 }
 
+                bool generateCloudformationTemplate = true;
+
                 // The runtime specified in the global property has precedence over the one we determined from the TFM (if we did)
                 if (globalPropertiesAttribute != null)
                 {
@@ -132,6 +134,14 @@ namespace Amazon.Lambda.Annotations.SourceGenerator
                     {
                         diagnosticReporter.Report(Diagnostic.Create(DiagnosticDescriptors.SetOutputTypeExecutable, Location.None));
                         return;
+                    }
+
+                    var generateCloudformationTemplateAttributeValue = globalPropertiesAttribute.NamedArguments.FirstOrDefault(kvp => kvp.Key == "GenerateCloudFormationTemplate").Value;
+
+                    if (generateCloudformationTemplateAttributeValue.Value != null && generateCloudformationTemplateAttributeValue.Value.ToString() != null
+                        && bool.TryParse(generateCloudformationTemplateAttributeValue.Value.ToString(), out var generateCloudformationTemplateAttributeBoolValue))
+                    {
+                        generateCloudformationTemplate = generateCloudformationTemplateAttributeBoolValue;
                     }
                 }
 
@@ -206,10 +216,12 @@ namespace Amazon.Lambda.Annotations.SourceGenerator
                     context.AddSource("Program.g.cs", SourceText.From(executableAssembly.TransformText().ToEnvironmentLineEndings(), Encoding.UTF8, SourceHashAlgorithm.Sha256));
                 }
 
-                // Run the CloudFormation sync if any LambdaMethods exists. Also run if no LambdaMethods exists but there is a
-                // CloudFormation template in case orphaned functions in the template need to be removed.
-                // Both checks are required because if there is no template but there are LambdaMethods the CF template the template will be created.
-                if (!foundFatalError && (receiver.LambdaMethods.Any() || templateHandler.DoesTemplateExist(receiver.ProjectDirectory)))
+                // Run the CloudFormation sync if enabled and any LambdaMethods exists. Also run if no LambdaMethods exist, but there is a
+                // CloudFormation template, in case orphaned functions in the template need to be removed.
+                // Both checks are required because if there is no template but there are LambdaMethods the CF template, the template will be created.
+                if (!foundFatalError
+                    && generateCloudformationTemplate
+                    && (receiver.LambdaMethods.Any() || templateHandler.DoesTemplateExist(receiver.ProjectDirectory)))
                 {
                     annotationReport.CloudFormationTemplatePath = templateHandler.FindTemplate(receiver.ProjectDirectory);
                     annotationReport.ProjectRootDirectory = receiver.ProjectDirectory;
