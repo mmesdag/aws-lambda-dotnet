@@ -1,0 +1,11 @@
+{
+  "Projects": [
+    {
+      "Name": "Amazon.Lambda.Annotations",
+      "Type": "Patch",
+      "ChangelogMessages": [
+        "Added a new GlobalProperty to allow suppressing the creation of a CloudFormation template file"
+      ]
+    }
+  ]
+}
